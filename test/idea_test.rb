@@ -10,5 +10,9 @@ class IdeaTest < ActiveSupport::TestCase
     assert_equal "roller", idea.body
   end
 
-  
+  test 'lists in descending order by updated_at' do 
+    
+  end
+
+
 end
