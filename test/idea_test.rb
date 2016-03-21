@@ -9,4 +9,6 @@ class IdeaTest < ActiveSupport::TestCase
     assert_equal "Hotdogs", idea.title
     assert_equal "roller", idea.body
   end
+
+  
 end

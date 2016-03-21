@@ -3,4 +3,5 @@ class Idea < ActiveRecord::Base
   validates :body, presence: true
   enum quality: [:swill, :plausible, :genius]
 
+  default_scope -> {order(updated_at: :desc)}
 end
