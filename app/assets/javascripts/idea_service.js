@@ -1,6 +1,6 @@
 $(document).ready(function(){
-  getIdeas()
-})
+  getIdeas();
+
 
   function renderIdea(idea){
     $('#ideas-index').append(
@@ -16,10 +16,21 @@ $(document).ready(function(){
   }
 
   function getIdeas(){
-    console.log('steve2')
     $.getJSON('/api/v1/ideas', function(ideas){
       $.each(ideas, function(index, idea){
         renderIdea(idea);
-      })
-    })
-  };
+      });
+    });
+  }
+
+  $("#submit-button").on('click', function() {
+    var ideaParams = {
+      idea: {
+        title: $('#idea-title').val(),
+        body: $('#idea-body').val()
+      }
+    }
+
+  })
+
+});

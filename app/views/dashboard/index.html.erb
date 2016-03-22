@@ -1,3 +1,13 @@
 <h3>Latest Ideas</h3>
 <div id='ideas-index'>
 </div>
+
+<%= form_for(@idea, remote: true, url: '#') do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title, id: "idea-title" %>
+
+  <%= f.label :body %>
+  <%= f.text_field :body, id: "idea-body" %> 
+
+  <input type="button" value="Create" id="submit-button" />
+<% end %>
