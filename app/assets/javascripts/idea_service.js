@@ -31,6 +31,17 @@ $(document).ready(function(){
       }
     }
 
+    $.ajax({ 
+      type: "POST",
+      url: "/api/v1/ideas",
+      data: ideaParams,
+      success: function(newIdea) {
+        console.log("created idea");
+        renderIdea(newIdea)
+      }
+    })
   })
+
+
 
 });
