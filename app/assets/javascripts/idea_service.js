@@ -7,9 +7,9 @@ $(document).ready(function(){
       "<div class='idea' data-id='" +
       idea.id + "'><h6>Published on: " +
       idea.created_at +
-      "</h6><h6> Title: " + idea.title + "</h6>" + 
+      "</h6><h6> Title: " + idea.title + "</h6>" +
       truncate(idea.body) +
-      "</p><p>Quality: " + idea.quality + 
+      "</p><p>Quality: " + idea.quality +
       "</p><button id='delete-idea' name='button-fetch' class='btn btn-default btn-xs'>Delete</button>" +
       "</div>"
     );
@@ -25,36 +25,36 @@ $(document).ready(function(){
 
   function createIdea() {
     $("#submit-button").on('click', function(event) {
-      event.preventDefault()
+      event.preventDefault();
       var ideaParams = {
         idea: {
           title: $('#idea-title').val(),
           body: $('#idea-body').val()
         }
-      }
+      };
 
-      $.ajax({ 
+      $.ajax({
         type: "POST",
         url: "/api/v1/ideas",
         data: ideaParams,
         success: function(newIdea) {
           console.log("created idea");
-          renderIdea(newIdea)
+          renderIdea(newIdea);
         }
-      })
-    })
+      });
+    });
 
     function clearForm() {
-      $("#title").val('')
-      $("#body").val('')
+      $("#title").val('');
+      $("#body").val('');
     }
   }
 
   function truncate(string) {
     if (string.length > 100) {
-      return string.substring(0, 100).split(" ").slice(0, -1).join(" ") + "..."
+      return string.substring(0, 100).split(" ").slice(0, -1).join(" ") + "...";
     } else
-    return string
+    return string;
   }
 
 });
