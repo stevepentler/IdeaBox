@@ -4,6 +4,7 @@ $(document).ready(function(){
   deleteIdea();
   promoteIdea();
   demoteIdea();
+  editIdea();
 });
 
 
@@ -18,6 +19,7 @@ $(document).ready(function(){
       "</p><button id='delete-button' class='btn btn-default btn-xs'>Delete</button>" +
       "<button id='promote-button' class='btn btn-default btn-xs'>Promote</button>" +
       "<button id='demote-button' class='btn btn-default btn-xs'>Demote</button>" +
+      "<button id='edit-button' class='btn btn-default btn-xs'>Edit</button>" +
       "</div>"
     );
   }
@@ -73,12 +75,17 @@ $(document).ready(function(){
     });
   }
 
+  function editIdea() {
+    $('#ideas-index').delegate("#promote-button", 'click', function() {
+      var $idea = $(this).closest('.idea');
+  }
+
   function promoteIdea() {
     $('#ideas-index').delegate("#promote-button", 'click', function() {
       var $idea = $(this).closest('.idea');
       var previousQuality = $idea.find('p').text().split(" ")[1];
       
-console.log("previous quality = " + previousQuality);
+      console.log("previous quality = " + previousQuality);
 
       function updateQuality(previousQuality) {
         if (previousQuality === "swill") {
@@ -90,7 +97,7 @@ console.log("previous quality = " + previousQuality);
 
       var newQuality = updateQuality(previousQuality);
 
-console.log("new quality = " + newQuality);
+      console.log("new quality = " + newQuality);
 
       var ideaParams = {
         idea: {
@@ -120,7 +127,7 @@ console.log("new quality = " + newQuality);
       var $idea = $(this).closest('.idea');
       var previousQuality = $idea.find('p').text().split(" ")[1];
       
-console.log("previous quality = " + previousQuality);
+      console.log("previous quality = " + previousQuality);
 
       function updateQuality(previousQuality) {
         if (previousQuality === "genius") {
@@ -132,7 +139,7 @@ console.log("previous quality = " + previousQuality);
 
       var newQuality = updateQuality(previousQuality);
 
-console.log("demoted quality = " + newQuality);
+      console.log("demoted quality = " + newQuality);
 
       var ideaParams = {
         idea: {
@@ -156,6 +163,8 @@ console.log("demoted quality = " + newQuality);
       
     });
   }
+
+  function 
 
 
   function truncate(string) {
