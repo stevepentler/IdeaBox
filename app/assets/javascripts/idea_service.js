@@ -1,4 +1,6 @@
 $(document).ready(function(){
+  getIdeas()
+})
 
   function renderIdea(idea){
     $('#ideas-index').append(
@@ -21,11 +23,3 @@ $(document).ready(function(){
       })
     })
   };
-
-  getIdeas()
-
-  $('#fetch-ideas').click(function() {
-    getIdeas()
-  });
-
-})
