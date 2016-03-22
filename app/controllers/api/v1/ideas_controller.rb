@@ -10,7 +10,8 @@ class Api::V1::IdeasController < ApplicationController
   end
 
   def create
-    respond_with Idea.create(idea_params)
+    @idea = Idea.create(idea_params)
+    respond_with :api, :v1, @idea
   end
 
   def update 
@@ -24,6 +25,6 @@ class Api::V1::IdeasController < ApplicationController
   private
 
   def idea_params
-    params.permit(:title, :body, :quality)
+    params.require(:idea).permit(:title, :body, :quality)
   end
 end
