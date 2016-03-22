@@ -103,7 +103,8 @@ console.log("new quality = " + newQuality);
         data: ideaParams,
         success: function() {
           quality = newQuality,
-          console.log("updated quality to " + newQuality)
+          console.log("updated quality to " + newQuality);
+          $idea.find('p').text("Quality: " + newQuality);
         },
         error: function(xhr) {
           console.log(xhr.responseText);
