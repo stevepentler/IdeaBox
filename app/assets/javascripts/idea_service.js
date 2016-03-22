@@ -3,6 +3,7 @@ $(document).ready(function(){
   createIdea();
   deleteIdea();
   promoteIdea();
+  demoteIdea();
 });
 
 
@@ -114,6 +115,47 @@ console.log("new quality = " + newQuality);
     });
   }
 
+  function demoteIdea() {
+    $('#ideas-index').delegate("#demote-button", 'click', function() {
+      var $idea = $(this).closest('.idea');
+      var previousQuality = $idea.find('p').text().split(" ")[1];
+      
+console.log("previous quality = " + previousQuality);
+
+      function updateQuality(previousQuality) {
+        if (previousQuality === "genius") {
+          return 'plausible';
+        } else {
+          return "swill";
+        }
+      }
+
+      var newQuality = updateQuality(previousQuality);
+
+console.log("demoted quality = " + newQuality);
+
+      var ideaParams = {
+        idea: {
+          quality: newQuality
+        }
+      };
+
+      $.ajax({
+        type: "PUT",
+        url: "/api/v1/ideas/" + $idea.attr('idea-id'),
+        data: ideaParams,
+        success: function() {
+          quality = newQuality,
+          console.log("updated quality to " + newQuality);
+          $idea.find('p').text("Quality: " + newQuality);
+        },
+        error: function(xhr) {
+          console.log(xhr.responseText);
+        }
+      });
+      
+    });
+  }
 
 
   function truncate(string) {
