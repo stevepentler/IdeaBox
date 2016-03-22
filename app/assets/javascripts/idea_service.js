@@ -46,10 +46,8 @@ $(document).ready(function(){
         }
       });
 
-      function clearForm() {
-        $("#idea-title").val('');
-        $("#idea-body").val('');
-      }
+      $("#idea-title").val("");
+      $("#idea-body").val("");
     });
   }
 
