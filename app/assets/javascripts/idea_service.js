@@ -1,18 +1,19 @@
 $(document).ready(function(){
   getIdeas();
   createIdea();
+  deleteIdea();
 });
 
 
   function renderIdea(idea){
     $('#ideas-index').prepend(
-      "<div class='idea' data-id='" +
+      "<div class='idea' idea-id='" +
       idea.id + "'><h6>Published on: " +
       idea.created_at +
       "</h6><h6> Title: " + idea.title + "</h6>" +
       truncate(idea.body) +
       "</p><p>Quality: " + idea.quality +
-      "</p><button id='delete-idea' name='button-fetch' class='btn btn-default btn-xs'>Delete</button>" +
+      "</p><button id='delete-button' class='btn btn-default btn-xs'>Delete</button>" +
       "</div>"
     );
   }
@@ -38,7 +39,7 @@ $(document).ready(function(){
         type: "POST",
         url: "/api/v1/ideas",
         data: ideaParams,
-        success: function(newIdea) { 
+        success: function(newIdea) {
           renderIdea(newIdea);
         },
         error: function(xhr) {
@@ -48,6 +49,23 @@ $(document).ready(function(){
 
       $("#idea-title").val("");
       $("#idea-body").val("");
+    });
+  }
+
+  function deleteIdea() {
+    $('#ideas-index').delegate("#delete-button", 'click', function() {
+      var $idea = $(this).closest(".idea");
+
+      $.ajax({
+        type: 'DELETE',
+        url: '/api/v1/ideas/' + $idea.attr('idea-id'),
+        success: function() {
+          $idea.remove();
+        },
+        error: function(xhr) {
+          console.log(xhr.responseText);
+        }
+      });
     });
   }
 
