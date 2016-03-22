@@ -10,7 +10,7 @@ class IdeaTest < ActiveSupport::TestCase
   test 'lists in descending order by updated_at' do 
     idea1, idea2, idea3 = create_list(:idea, 3)
 
-    assert_equal idea3, Idea.all.first
+    assert_equal idea3, Idea.all.last
 
   end
 

@@ -2,6 +2,7 @@ $(document).ready(function(){
   getIdeas();
   createIdea();
   deleteIdea();
+  promoteIdea();
 });
 
 
@@ -12,8 +13,10 @@ $(document).ready(function(){
       idea.created_at +
       "</h6><h6> Title: " + idea.title + "</h6>" +
       truncate(idea.body) +
-      "</p><p>Quality: " + idea.quality +
+      "<p>Quality: " + idea.quality +
       "</p><button id='delete-button' class='btn btn-default btn-xs'>Delete</button>" +
+      "<button id='promote-button' class='btn btn-default btn-xs'>Promote</button>" +
+      "<button id='demote-button' class='btn btn-default btn-xs'>Demote</button>" +
       "</div>"
     );
   }
@@ -68,6 +71,18 @@ $(document).ready(function(){
       });
     });
   }
+
+  function promoteIdea() {
+    console.log('got it');
+    $('#ideas-index').delegate("#promote-button", 'click', function() {
+      var ideaId = $(this).closest('.idea');
+      var ideaQuality = ideaId.find('p').text().split(" ")[1];
+      console.log(ideaQuality);
+
+    });
+  }
+
+
 
   function truncate(string) {
     if (string.length > 100) {
