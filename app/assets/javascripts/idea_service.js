@@ -4,6 +4,7 @@ $(document).ready(function(){
   deleteIdea();
   promoteIdea();
   demoteIdea();
+  editIdea();
 });
 
 
@@ -113,6 +114,14 @@ console.log("new quality = " + newQuality);
         }
       });
       
+    });
+  }
+
+  function editIdea() {
+    $('#ideas-index').delegate("#edit-button", 'click', function() {
+      var $idea = $(this).closest('.idea');
+      $idea.contentEditable = true;
+      console.log($idea);
     });
   }
 
