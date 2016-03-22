@@ -5,7 +5,7 @@ $(document).ready(function(){
 
 
   function renderIdea(idea){
-    $('#ideas-index').append(
+    $('#ideas-index').prepend(
       "<div class='idea' data-id='" +
       idea.id + "'><h6>Published on: " +
       idea.created_at +
@@ -38,7 +38,7 @@ $(document).ready(function(){
         type: "POST",
         url: "/api/v1/ideas",
         data: ideaParams,
-        success: function(newIdea) {
+        success: function(newIdea) { 
           renderIdea(newIdea);
         },
         error: function(xhr) {
