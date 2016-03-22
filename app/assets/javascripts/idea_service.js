@@ -25,7 +25,7 @@ $(document).ready(function(){
 
   function createIdea() {
     $("#submit-button").on('click', function(event) {
-      evenet.preventDefault()
+      event.preventDefault()
       var ideaParams = {
         idea: {
           title: $('#idea-title').val(),
