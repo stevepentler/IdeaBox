@@ -18,6 +18,7 @@ $(document).ready(function(){
       "</p><button id='delete-button' class='btn btn-default btn-xs'>Delete</button>" +
       "<button id='promote-button' class='btn btn-default btn-xs'>Promote</button>" +
       "<button id='demote-button' class='btn btn-default btn-xs'>Demote</button>" +
+      "<button id='edit-button' class='btn btn-default btn-xs'>Edit</button>" +
       "</div>"
     );
   }
