@@ -1,5 +1,7 @@
 $(document).ready(function(){
   getIdeas();
+  createIdea();
+});
 
 
   function renderIdea(idea){
@@ -24,8 +26,7 @@ $(document).ready(function(){
   }
 
   function createIdea() {
-    $("#submit-button").on('click', function(event) {
-      event.preventDefault();
+    $("#submit-button").on('click', function() {
       var ideaParams = {
         idea: {
           title: $('#idea-title').val(),
@@ -38,16 +39,18 @@ $(document).ready(function(){
         url: "/api/v1/ideas",
         data: ideaParams,
         success: function(newIdea) {
-          console.log("created idea");
           renderIdea(newIdea);
+        },
+        error: function(xhr) {
+          console.log(xhr.responseText);
         }
       });
-    });
 
-    function clearForm() {
-      $("#title").val('');
-      $("#body").val('');
-    }
+      function clearForm() {
+        $("#idea-title").val('');
+        $("#idea-body").val('');
+      }
+    });
   }
 
   function truncate(string) {
@@ -56,5 +59,3 @@ $(document).ready(function(){
     } else
     return string;
   }
-
-});

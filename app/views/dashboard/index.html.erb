@@ -1,13 +1,8 @@
 <h3>Latest Ideas</h3>
 <div id='ideas-index'>
 </div>
-
-<%= form_tag do  %>
-  <%= label_tag :title %>
-  <%= text_field_tag(:title) %>
-
-  <%= label_tag :body %>
-  <%= text_area_tag(:body) %> 
-
-  <input type="button" id="submit-button" value="Create Idea">
-<% end %>
+<span>Title</span>
+<input type="text" id="idea-title">
+<span>Body</span>
+<input type="text" id="idea-body">
+<input class="waves-effect waves-light btn" type="button" id="submit-button" value="Save">
