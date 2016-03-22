@@ -2,6 +2,7 @@ $(document).ready(function(){
   getIdeas();
   createIdea();
   deleteIdea();
+  promoteIdea();
 });
 
 
@@ -12,8 +13,10 @@ $(document).ready(function(){
       idea.created_at +
       "</h6><h6> Title: " + idea.title + "</h6>" +
       truncate(idea.body) +
-      "</p><p>Quality: " + idea.quality +
+      "<p>Quality: " + idea.quality +
       "</p><button id='delete-button' class='btn btn-default btn-xs'>Delete</button>" +
+      "<button id='promote-button' class='btn btn-default btn-xs'>Promote</button>" +
+      "<button id='demote-button' class='btn btn-default btn-xs'>Demote</button>" +
       "</div>"
     );
   }
@@ -68,6 +71,50 @@ $(document).ready(function(){
       });
     });
   }
+
+  function promoteIdea() {
+    $('#ideas-index').delegate("#promote-button", 'click', function() {
+      var $idea = $(this).closest('.idea');
+      var previousQuality = $idea.find('p').text().split(" ")[1];
+      
+console.log("previous quality = " + previousQuality);
+
+      function updateQuality(previousQuality) {
+        if (previousQuality === "swill") {
+          return 'plausible';
+        } else {
+          return "genius";
+        }
+      }
+
+      var newQuality = updateQuality(previousQuality);
+
+console.log("new quality = " + newQuality);
+
+      var ideaParams = {
+        idea: {
+          quality: newQuality
+        }
+      };
+
+      $.ajax({
+        type: "PUT",
+        url: "/api/v1/ideas/" + $idea.attr('idea-id'),
+        data: ideaParams,
+        success: function() {
+          quality = newQuality,
+          console.log("updated quality to " + newQuality);
+          $idea.find('p').text("Quality: " + newQuality);
+        },
+        error: function(xhr) {
+          console.log(xhr.responseText);
+        }
+      });
+      
+    });
+  }
+
+
 
   function truncate(string) {
     if (string.length > 100) {
