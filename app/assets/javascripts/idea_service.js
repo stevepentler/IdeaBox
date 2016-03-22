@@ -7,8 +7,8 @@ $(document).ready(function(){
       idea.created_at +
       "</h6><h6> Title: " + idea.title + "</h6>" + 
       idea.body +
-      "</p>" +
-      "<button id='delete-idea' name='button-fetch' class='btn btn-default btn-xs'>Delete</button>" +
+      "</p><p>Quality: " + idea.quality + 
+      "</p><button id='delete-idea' name='button-fetch' class='btn btn-default btn-xs'>Delete</button>" +
       "</div>"
     );
   }
