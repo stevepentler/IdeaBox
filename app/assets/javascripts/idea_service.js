@@ -1,6 +1,7 @@
 $(document).ready(function(){
   getIdeas();
   createIdea();
+  deleteIdea();
 });
 
 
@@ -12,7 +13,7 @@ $(document).ready(function(){
       "</h6><h6> Title: " + idea.title + "</h6>" +
       truncate(idea.body) +
       "</p><p>Quality: " + idea.quality +
-      "</p><button id='delete-idea' name='button-fetch' class='btn btn-default btn-xs'>Delete</button>" +
+      "</p><button id='delete-button' class='btn btn-default btn-xs'>Delete</button>" +
       "</div>"
     );
   }
@@ -48,6 +49,23 @@ $(document).ready(function(){
 
       $("#idea-title").val("");
       $("#idea-body").val("");
+    });
+  }
+
+  function deleteIdea() {
+    $('#ideas-index').delegate("#delete-button", 'click', function() {
+      var $idea = $(this).closest(".idea");
+
+      $.ajax({
+        type: 'DELETE',
+        url: '/api/v1/ideas/' + $idea.attr('idea-id'),
+        success: function() {
+          $idea.remove();
+        },
+        error: function(xhr) {
+          console.log(xhr.responseText);
+        }
+      });
     });
   }
 
