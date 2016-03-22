@@ -73,12 +73,43 @@ $(document).ready(function(){
   }
 
   function promoteIdea() {
-    console.log('got it');
     $('#ideas-index').delegate("#promote-button", 'click', function() {
-      var ideaId = $(this).closest('.idea');
-      var ideaQuality = ideaId.find('p').text().split(" ")[1];
-      console.log(ideaQuality);
+      var $idea = $(this).closest('.idea');
+      var previousQuality = $idea.find('p').text().split(" ")[1];
+      
+console.log("previous quality = " + previousQuality);
 
+      function updateQuality(previousQuality) {
+        if (previousQuality === "swill") {
+          return 'plausible';
+        } else {
+          return "genius";
+        }
+      }
+
+      var newQuality = updateQuality(previousQuality);
+
+console.log("new quality = " + newQuality);
+
+      var ideaParams = {
+        idea: {
+          quality: newQuality
+        }
+      };
+
+      $.ajax({
+        type: "PUT",
+        url: "/api/v1/ideas/" + $idea.attr('idea-id'),
+        data: ideaParams,
+        success: function() {
+          quality = newQuality,
+          console.log("updated quality to " + newQuality)
+        },
+        error: function(xhr) {
+          console.log(xhr.responseText);
+        }
+      });
+      
     });
   }
 
