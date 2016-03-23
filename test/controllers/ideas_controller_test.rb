@@ -8,6 +8,7 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
     idea_index = JSON.parse(response.body)
 
     assert_response :success
+    assert_response 200, response.status
     assert_equal 3, idea_index.count
 
     assert_equal idea1.id, idea_index.first["id"]
@@ -31,6 +32,7 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
 
       idea = JSON.parse(response.body)
       assert_response :success
+      assert_response 201, response.status
 
       assert_equal params["title"], idea["title"]
       assert_equal params["body"], idea["body"]
@@ -39,21 +41,19 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
   end
 
   test '#update' do 
-    assert_difference 'Idea.count', 0 do 
       idea = create(:idea)
+      params = {"title" => 'updated title',
+                "body"  => 'updated body'}
 
-      params = {"title"=>"updated title", 
-                "body"=>"updated body"}
+      put :update, format: :json, id: idea.id, idea: params
       
-      post :update, format: :json, idea: params
-
-      idea = JSON.parse(response.body)
       assert_response :success
+      assert_response 204, response.status
 
-      assert_equal params["title"], idea["title"]
-      assert_equal params["body"], idea["body"]
-      assert_equal "swill", idea["quality"]
-    end
+      updated_idea = Idea.last
+      assert_equal params["title"], updated_idea["title"]
+      assert_equal params["body"], updated_idea["body"]
+      assert_equal 0, updated_idea["quality"]
   end
 
 
