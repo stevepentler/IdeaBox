@@ -12,7 +12,7 @@ $(document).ready(function(){
       "<div class='idea' idea-id='" +
       idea.id + "'><h6>Published on: " +
       idea.created_at +
-      "</h6><span> Title: " + "</span><h6 class='title'>" + idea.title + "</h6><h6 class='title'>" +
+      "</h6><span> Title: " + "</span><h6 class='title'>" + idea.title + "</h6><h6 class='body'>" +
       truncate(idea.body) +
       "</h6><p>Quality: " + idea.quality +
       "</p><button id='delete-button' class='btn btn-default btn-xs'>Delete</button>" +
@@ -128,7 +128,8 @@ console.log("new quality = " + newQuality);
         if(event.which == 13) {
           var ideaParams = {
             idea: {
-              title: $idea.find('.title').text()
+              title: $idea.find('.title').text(),
+              body: $idea.find('.body').text()
             }
           };
 
