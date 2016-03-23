@@ -3,6 +3,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'capybara/rails'
 
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
@@ -11,4 +12,8 @@ class ActiveSupport::TestCase
     DatabaseCleaner.clean
   end
 
+end
+
+class ActionDispatch::IntegrationTest
+  include Capybara::DSL
 end
