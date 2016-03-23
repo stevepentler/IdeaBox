@@ -2,11 +2,11 @@ function searchIdeas() {
   $("#search").keyup(function() {
     var entry = $(this).val().toLowerCase();
     var ideasIndex = $('#ideas-index').children();
-    limitSearch(ideasIndex, entry);
+    searchEntry(ideasIndex, entry);
   });
 }
 
-function limitSearch(ideasIndex, entry) {
+function searchEntry(ideasIndex, entry) {
   $.each(ideasIndex, function(index, idea){
     var title = $(idea).find('.title').text().toLowerCase();
     var body = $(idea).find('.body').text().toLowerCase();
