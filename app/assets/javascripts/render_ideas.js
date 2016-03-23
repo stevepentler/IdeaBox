@@ -9,7 +9,7 @@ function renderIdea(idea){
       "<button id='promote-button' class='btn btn-default btn-xs'><i class='material-icons'>thumb_up</i></button>" +
       "<button id='demote-button' class='btn btn-default btn-xs'><i class='material-icons'>thumb_down</i></button>" +
       "<button id='delete-button' class='btn btn-default btn-xs'><i class='material-icons'>delete</i></button>" +
-      "</div>" + 
+      "</div>" +
       "<hr>" +
     "</div>"
   );

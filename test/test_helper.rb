@@ -15,5 +15,9 @@ class ActiveSupport::TestCase
 end
 
 class ActionDispatch::IntegrationTest
-  include Capybara::DSL
+
+  def teardown 
+    DatabaseCleaner.clean
+  end
+
 end
