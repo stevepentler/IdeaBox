@@ -6,12 +6,12 @@ function createIdea() {
         body: $('#idea-body').val()
       }
     };
-    createDatabase(ideaParams);
+    createCall(ideaParams);
     clearForm();
   });
 }
 
-function createDatabase(ideaParams) {
+function createCall(ideaParams) {
   $.ajax({
     type: "POST",
     url: "/api/v1/ideas",
