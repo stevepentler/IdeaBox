@@ -14,7 +14,7 @@ class Api::V1::IdeasController < ApplicationController
     respond_with :api, :v1, @idea
   end
 
-  def update 
+  def update
     @idea = Idea.find_by(id: params[:id])
     respond_with @idea.update(idea_params)
   end

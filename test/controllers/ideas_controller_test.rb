@@ -22,11 +22,10 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
   end
 
   test '#create' do 
-
     assert_difference 'Idea.count', 1 do 
-
-      params = {"title"=>"test title", 
-                "body"=>"test body"}
+      
+      params = {"title"=>"new title", 
+                "body"=>"new body"}
       
       post :create, format: :json, idea: params
 
@@ -37,8 +36,26 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
       assert_equal params["body"], idea["body"]
       assert_equal "swill", idea["quality"]
     end
-
   end
+
+  test '#update' do 
+    assert_difference 'Idea.count', 0 do 
+      idea = create(:idea)
+
+      params = {"title"=>"updated title", 
+                "body"=>"updated body"}
+      
+      post :update, format: :json, idea: params
+
+      idea = JSON.parse(response.body)
+      assert_response :success
+
+      assert_equal params["title"], idea["title"]
+      assert_equal params["body"], idea["body"]
+      assert_equal "swill", idea["quality"]
+    end
+  end
+
 
 
 
