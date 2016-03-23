@@ -7,10 +7,13 @@ require 'capybara/rails'
 
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
-  include Capybara::DSL
 
   def teardown 
     DatabaseCleaner.clean
   end
 
+end
+
+class ActionDispatch::IntegrationTest
+  include Capybara::DSL
 end

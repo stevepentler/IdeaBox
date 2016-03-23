@@ -21,24 +21,23 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
     assert_equal idea3.quality, idea_index.last["quality"]
   end
 
- test '#create' do 
-    idea1, idea2, idea3 = create_list(:idea, 3)
-    get :index, format: :json
+  test '#create' do 
 
-    idea_index = JSON.parse(response.body)
+    assert_difference 'Idea.count', 1 do 
 
-    assert_response :success
-    assert_equal 3, idea_index.count
+      params = {"title"=>"test title", 
+                "body"=>"test body"}
+      
+      post :create, format: :json, idea: params
 
-    assert_equal idea1.id, idea_index.first["id"]
-    assert_equal idea1.title, idea_index.first["title"]
-    assert_equal idea1.body, idea_index.first["body"]
-    assert_equal idea1.quality, idea_index.first["quality"]
+      idea = JSON.parse(response.body)
+      assert_response :success
 
-    assert_equal idea3.id, idea_index.last["id"]
-    assert_equal idea3.title, idea_index.last["title"]
-    assert_equal idea3.body, idea_index.last["body"]
-    assert_equal idea3.quality, idea_index.last["quality"]
+      assert_equal params["title"], idea["title"]
+      assert_equal params["body"], idea["body"]
+      assert_equal "swill", idea["quality"]
+    end
+
   end
 
 
