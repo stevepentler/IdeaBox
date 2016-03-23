@@ -2,42 +2,37 @@ require 'test_helper'
 require "selenium-webdriver"
 
 class CreateIdeaTest < ActionDispatch::IntegrationTest
- test "create a new idea" do
+ test "create a new idea, search, and delete" do
     driver = Selenium::WebDriver.for:firefox
     driver.navigate.to "http://localhost:3000"
 
     title_field = driver.find_element(:id, 'idea-title')
-    title_field.send_keys "New Idea Title"
+    title_field.send_keys "Selected Title"
     body_field = driver.find_element(:id, 'idea-body')
-    body_field.send_keys "New Idea Body"
+    body_field.send_keys "Selected Body"
     driver.find_element(:id, 'submit-button').click
 
-    assert driver.find_element(:id=>"ideas-index").text.include? "New Idea Title"
-    assert driver.find_element(:id=>"ideas-index").text.include? "New Idea Body"
-    assert driver.find_element(:id=>"ideas-index").text.include? "swill"
-  end
+    title_field = driver.find_element(:id, 'idea-title')
+    title_field.send_keys "Other Title"
+    body_field = driver.find_element(:id, 'idea-body')
+    body_field.send_keys "Other Body"
+    driver.find_element(:id, 'submit-button').click
 
-   test "search for idea" do
-    idea1, idea2, idea3 = create_list(:idea, 3)
-    select_idea = Idea.create(title: "New Idea Title",
-                              body: "New Idea Body", 
-                              quality: 0)
+    assert driver.find_element(:id=>"ideas-index").text.include? "Selected Title"
+    assert driver.find_element(:id=>"ideas-index").text.include? "Selected Body"
 
-    driver = Selenium::WebDriver.for:firefox
-    driver.navigate.to "http://localhost:3000"
+    assert driver.find_element(:id=>"ideas-index").text.include? "Other Title"
+    assert driver.find_element(:id=>"ideas-index").text.include? "Other Body"
 
     search_field = driver.find_element(:id, 'search')
-    search_field.send_keys select_idea.title
-    save_and_open_page
-    assert driver.find_element(:id=>"ideas-index").text.include? select_idea.title
-    assert driver.find_element(:id=>"ideas-index").text.include? select_idea.body
-    assert driver.find_element(:id=>"ideas-index").text.include? select_idea.quality
+    search_field.send_keys "Selected Title"
 
-    refute driver.find_element(:id=>"ideas-index").text.include? idea1.title
-    refute driver.find_element(:id=>"ideas-index").text.include? idea1.body
+    assert driver.find_element(:id=>"ideas-index").text.include? "Selected Title"
+    assert driver.find_element(:id=>"ideas-index").text.include? "Selected Body"
+    assert driver.find_element(:id=>"ideas-index").text.include? "swill"
 
-    refute driver.find_element(:id=>"ideas-index").text.include? idea3.title
-    refute driver.find_element(:id=>"ideas-index").text.include? idea3.body
-  
+    refute driver.find_element(:id=>"ideas-index").text.include? "Other Title"
+    refute driver.find_element(:id=>"ideas-index").text.include? "Other Body"
   end
+
 end
