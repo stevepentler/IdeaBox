@@ -3,8 +3,6 @@ function editIdea(selector) {
     var $idea = $(this).closest('.idea');
     var editableIdea = this;
     this.contentEditable = true;
-    editedTitle = this;
-    console.log(editedTitle);
 
     $(document).keypress(function(event){
       if(event.which == 13) {
