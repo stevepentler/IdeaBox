@@ -14,6 +14,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'responders'
 gem 'faker'
 
+group :production do 
+  gem 'rails_12factor'
+end
 
 group :development, :test do
   gem 'pry'

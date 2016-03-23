@@ -12,21 +12,24 @@ function editIdea(selector) {
             body: $idea.find('.body').text()
           }
         };
-
-        $.ajax({
-          type: "PUT",
-          url: "/api/v1/ideas/" + $idea.attr('idea-id'),
-          data: ideaParams,
-          success: function() {
-            console.log("updated title to " + $idea.find('.title').text());
-          },
-          error: function(xhr) {
-            console.log(xhr.responseText);
-          }
-        });
+        editCall($idea, ideaParams);
         editableIdea.contentEditable = false;
       }
     });
+  });
+}
+
+function editCall(idea, ideaParams) {
+  $.ajax({
+    type: "PUT",
+    url: "/api/v1/ideas/" + idea.attr('idea-id'),
+    data: ideaParams,
+    success: function() {
+      console.log("updated title to " + idea.find('.title').text());
+    },
+    error: function(xhr) {
+      console.log(xhr.responseText);
+    }
   });
 }
 
