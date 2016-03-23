@@ -40,22 +40,84 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
     end
   end
 
-  test '#update' do 
-      idea = create(:idea)
-      params = {"title" => 'updated title',
-                "body"  => 'updated body'}
+  test '#update title and body' do 
+    idea = create(:idea)
+    params = {"title" => 'updated title',
+              "body"  => 'updated body'}
 
-      put :update, format: :json, id: idea.id, idea: params
-      
-      assert_response :success
-      assert_response 204, response.status
+    put :update, format: :json, id: idea.id, idea: params
+    
+    assert_response :success
+    assert_response 204, response.status
 
-      updated_idea = Idea.last
-      assert_equal params["title"], updated_idea["title"]
-      assert_equal params["body"], updated_idea["body"]
-      assert_equal 0, updated_idea["quality"]
+    updated_idea = Idea.last
+    assert_equal params["title"], updated_idea["title"]
+    assert_equal params["body"], updated_idea["body"]
+    assert_equal 0, updated_idea["quality"]
   end
 
+  test '#update promote quality to plausible' do 
+    idea = create(:idea)
+    params = {"quality" => 'plausible'}
+
+    put :update, format: :json, id: idea.id, idea: params
+    
+    assert_response :success
+    assert_response 204, response.status
+
+    updated_idea = Idea.last
+    assert_equal idea.title, updated_idea["title"]
+    assert_equal idea.body, updated_idea["body"]
+    assert_equal 1, updated_idea["quality"]
+  end 
+
+  test '#update promote quality to genius' do 
+    idea = create(:idea)
+    idea.quality = "plausible"
+    params = {"quality" => 'genius'}
+
+    put :update, format: :json, id: idea.id, idea: params
+    
+    assert_response :success
+    assert_response 204, response.status
+
+    updated_idea = Idea.last
+    assert_equal idea.title, updated_idea["title"]
+    assert_equal idea.body, updated_idea["body"]
+    assert_equal 2, updated_idea["quality"]
+  end 
+
+  test '#update demote quality to plausible' do 
+    idea = create(:idea)
+    idea.quality = "genius"
+    params = {"quality" => 'plausible'}
+
+    put :update, format: :json, id: idea.id, idea: params
+    
+    assert_response :success
+    assert_response 204, response.status
+
+    updated_idea = Idea.last
+    assert_equal idea.title, updated_idea["title"]
+    assert_equal idea.body, updated_idea["body"]
+    assert_equal 1, updated_idea["quality"]
+  end 
+
+  test '#update demote quality to swill' do 
+    idea = create(:idea)
+    idea.quality = "plausible"
+    params = {"quality" => 'swill'}
+
+    put :update, format: :json, id: idea.id, idea: params
+    
+    assert_response :success
+    assert_response 204, response.status
+
+    updated_idea = Idea.last
+    assert_equal idea.title, updated_idea["title"]
+    assert_equal idea.body, updated_idea["body"]
+    assert_equal 0, updated_idea["quality"]
+  end 
 
 
 
