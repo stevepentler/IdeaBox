@@ -11580,172 +11580,199 @@ return jQuery;
   }
 
 })( jQuery );
+function createIdea() {
+  $("#submit-button").on('click', function() {
+    var ideaParams = {
+      idea: {
+        title: $('#idea-title').val(),
+        body: $('#idea-body').val()
+      }
+    };
+
+    $.ajax({
+      type: "POST",
+      url: "/api/v1/ideas",
+      data: ideaParams,
+      success: function(newIdea) {
+        renderIdea(newIdea);
+      },
+      error: function(xhr) {
+        console.log(xhr.responseText);
+      }
+    });
+
+    $("#idea-title").val("");
+    $("#idea-body").val("");
+  });
+}
+;
+function deleteIdea() {
+  $('#ideas-index').delegate("#delete-button", 'click', function() {
+    var $idea = $(this).closest(".idea");
+
+    $.ajax({
+      type: 'DELETE',
+      url: '/api/v1/ideas/' + $idea.attr('idea-id'),
+      success: function() {
+        $idea.remove();
+      },
+      error: function(xhr) {
+        console.log(xhr.responseText);
+      }
+    });
+  });
+}
+;
+function editIdea(selector) {
+  $('#ideas-index').delegate(selector, 'click', function() {
+    var $idea = $(this).closest('.idea');
+    var editableIdea = this;
+    this.contentEditable = true;
+
+    $(document).keypress(function(event){
+      if(event.which == 13) {
+        var ideaParams = {
+          idea: {
+            title: $idea.find('.title').text(),
+            body: $idea.find('.body').text()
+          }
+        };
+
+        $.ajax({
+          type: "PUT",
+          url: "/api/v1/ideas/" + $idea.attr('idea-id'),
+          data: ideaParams,
+          success: function() {
+            console.log("updated title to " + $idea.find('.title').text());
+          },
+          error: function(xhr) {
+            console.log(xhr.responseText);
+          }
+        });
+        editableIdea.contentEditable = false;
+      }
+    });
+  });
+}
+
+editIdea('.title');
+editIdea('.body');
+function getIdeas(){
+  $.getJSON('/api/v1/ideas', function(ideas){
+    $.each(ideas, function(index, idea){
+      renderIdea(idea);
+    });
+  });
+}
+;
 $(document).ready(function(){
   getIdeas();
   createIdea();
   deleteIdea();
-  promoteIdea();
-  demoteIdea();
+  qualityIdea();
+  searchIdeas();
 });
+function qualityIdea(status) {
+  $('#ideas-index').delegate(status, 'click', function() {
+    var $idea = $(this).closest('.idea');
+    var previousQuality = $idea.find('p').text().split(" ")[1];
 
-
-  function renderIdea(idea){
-    $('#ideas-index').prepend(
-      "<div class='idea' idea-id='" +
-      idea.id + "'><h6>Published on: " +
-      idea.created_at +
-      "</h6><h6> Title: " + idea.title + "</h6>" +
-      truncate(idea.body) +
-      "<p>Quality: " + idea.quality +
-      "</p><button id='delete-button' class='btn btn-default btn-xs'>Delete</button>" +
-      "<button id='promote-button' class='btn btn-default btn-xs'>Promote</button>" +
-      "<button id='demote-button' class='btn btn-default btn-xs'>Demote</button>" +
-      "</div>"
-    );
-  }
-
-  function getIdeas(){
-    $.getJSON('/api/v1/ideas', function(ideas){
-      $.each(ideas, function(index, idea){
-        renderIdea(idea);
-      });
-    });
-  }
-
-  function createIdea() {
-    $("#submit-button").on('click', function() {
-      var ideaParams = {
-        idea: {
-          title: $('#idea-title').val(),
-          body: $('#idea-body').val()
-        }
-      };
-
-      $.ajax({
-        type: "POST",
-        url: "/api/v1/ideas",
-        data: ideaParams,
-        success: function(newIdea) {
-          renderIdea(newIdea);
-        },
-        error: function(xhr) {
-          console.log(xhr.responseText);
-        }
-      });
-
-      $("#idea-title").val("");
-      $("#idea-body").val("");
-    });
-  }
-
-  function deleteIdea() {
-    $('#ideas-index').delegate("#delete-button", 'click', function() {
-      var $idea = $(this).closest(".idea");
-
-      $.ajax({
-        type: 'DELETE',
-        url: '/api/v1/ideas/' + $idea.attr('idea-id'),
-        success: function() {
-          $idea.remove();
-        },
-        error: function(xhr) {
-          console.log(xhr.responseText);
-        }
-      });
-    });
-  }
-
-  function promoteIdea() {
-    $('#ideas-index').delegate("#promote-button", 'click', function() {
-      var $idea = $(this).closest('.idea');
-      var previousQuality = $idea.find('p').text().split(" ")[1];
-      
-console.log("previous quality = " + previousQuality);
-
-      function updateQuality(previousQuality) {
-        if (previousQuality === "swill") {
-          return 'plausible';
-        } else {
-          return "genius";
-        }
+    var qualityStatus = function() {
+      if (status == "#demote-button") {
+        return demoteQuality(previousQuality);
+      } else {
+        return promoteQuality(previousQuality);
       }
+    };
 
-      var newQuality = updateQuality(previousQuality);
-
-console.log("new quality = " + newQuality);
-
-      var ideaParams = {
-        idea: {
-          quality: newQuality
-        }
-      };
-
-      $.ajax({
-        type: "PUT",
-        url: "/api/v1/ideas/" + $idea.attr('idea-id'),
-        data: ideaParams,
-        success: function() {
-          quality = newQuality,
-          console.log("updated quality to " + newQuality);
-          $idea.find('p').text("Quality: " + newQuality);
-        },
-        error: function(xhr) {
-          console.log(xhr.responseText);
-        }
-      });
-      
-    });
-  }
-
-  function demoteIdea() {
-    $('#ideas-index').delegate("#demote-button", 'click', function() {
-      var $idea = $(this).closest('.idea');
-      var previousQuality = $idea.find('p').text().split(" ")[1];
-      
-console.log("previous quality = " + previousQuality);
-
-      function updateQuality(previousQuality) {
-        if (previousQuality === "genius") {
-          return 'plausible';
-        } else {
-          return "swill";
-        }
+    var ideaParams = {
+      idea: {
+        quality: qualityStatus
       }
+    };
 
-      var newQuality = updateQuality(previousQuality);
-
-console.log("demoted quality = " + newQuality);
-
-      var ideaParams = {
-        idea: {
-          quality: newQuality
-        }
-      };
-
-      $.ajax({
-        type: "PUT",
-        url: "/api/v1/ideas/" + $idea.attr('idea-id'),
-        data: ideaParams,
-        success: function() {
-          quality = newQuality,
-          console.log("updated quality to " + newQuality);
-          $idea.find('p').text("Quality: " + newQuality);
-        },
-        error: function(xhr) {
-          console.log(xhr.responseText);
-        }
-      });
-      
+    $.ajax({
+      type: "PUT",
+      url: "/api/v1/ideas/" + $idea.attr('idea-id'),
+      data: ideaParams,
+      success: function() {
+        quality = qualityStatus;
+        $idea.find('p').text("Quality: " + quality());
+      },
+      error: function(xhr) {
+        console.log(xhr.responseText);
+      }
     });
-  }
+  });
+}
 
-
-  function truncate(string) {
-    if (string.length > 100) {
-      return string.substring(0, 100).split(" ").slice(0, -1).join(" ") + "...";
-    } else
-    return string;
+function demoteQuality(previousQuality) {
+  if (previousQuality === "genius") {
+    return 'plausible';
+  } else {
+    return "swill";
   }
+}
+
+function promoteQuality(previousQuality) {
+  if (previousQuality === "swill") {
+    return 'plausible';
+  } else {
+    return "genius";
+  }
+}
+
+qualityIdea("#demote-button");
+qualityIdea("#promote-button");
+function renderIdea(idea){
+  $('#ideas-index').prepend(
+    "<div class='idea' idea-id='" + idea.id + "'>" +
+    
+      "<h5 class='title'>" + idea.title + "</h5>" +
+      "<h6>Published on: " + date(idea) + "</h6>" + "<br>" +
+      "<h6 class='body'>" + truncate(idea.body) + "</h6>" +
+      "<p>Quality: " + idea.quality + "</p>" +
+      "<button id='delete-button' class='btn btn-default btn-xs'><i class='material-icons'>delete</i></button>" +
+      "<button id='promote-button' class='btn btn-default btn-xs'><i class='material-icons'>thumb_up</i></button>" +
+      "<button id='demote-button' class='btn btn-default btn-xs'><i class='material-icons'>thumb_down</i></button>" +
+    "</div>"
+  );
+}
+
+function date(idea) {
+  return idea.created_at.split("T")[0];
+}
+;
+function searchIdeas() {
+  $("#search").keyup(function() {
+    var entry = $(this).val().toLowerCase();
+    var ideasIndex = $('#ideas-index').children();
+    searchEntry(ideasIndex, entry);
+  });
+}
+
+function searchEntry(ideasIndex, entry) {
+  $.each(ideasIndex, function(index, idea){
+    var title = $(idea).find('.title').text().toLowerCase();
+    var body = $(idea).find('.body').text().toLowerCase();
+    showIdeas(idea, title, body, entry);
+  });
+}
+
+function showIdeas(idea, title, body, entry) {
+  if (title.includes(entry) || body.includes(entry)) {
+    $(idea).show();
+  } else {
+    $(idea).hide();
+  }
+}
+;
+function truncate(string) {
+  if (string.length > 100) {
+    return string.substring(0, 100).split(" ").slice(0, -1).join(" ") + "...";
+  } else
+  return string;
+}
 ;
 // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
