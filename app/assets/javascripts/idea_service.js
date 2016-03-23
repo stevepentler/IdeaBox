@@ -4,7 +4,6 @@ $(document).ready(function(){
   deleteIdea();
   promoteIdea();
   demoteIdea();
-  editIdea();
 });
 
 
@@ -13,7 +12,7 @@ $(document).ready(function(){
       "<div class='idea' idea-id='" +
       idea.id + "'><h6>Published on: " +
       idea.created_at +
-      "</h6><h6> Title: " + "</h6><h6 class='title'>" + idea.title + "</h6>" + "</h6><h6 class='body'" +
+      "</h6><span> Title: " + "</span><h6 class='title'>" + idea.title + "</h6><h6 class='title'>" +
       truncate(idea.body) +
       "</h6><p>Quality: " + idea.quality +
       "</p><button id='delete-button' class='btn btn-default btn-xs'>Delete</button>" +
@@ -117,8 +116,8 @@ console.log("new quality = " + newQuality);
     });
   }
 
-  function editIdea() {
-    $('#ideas-index').delegate(".title", 'click', function() {
+  function editIdea(selector) {
+    $('#ideas-index').delegate(selector, 'click', function() {
       var $idea = $(this).closest('.idea');
       var editableIdea = this;
       this.contentEditable = true;
@@ -146,12 +145,13 @@ console.log("new quality = " + newQuality);
           });
           editableIdea.contentEditable = false;
         }
-
       });
-
-    
     });
   }
+
+  editIdea('.title');
+  editIdea('.body');
+
 
   function demoteIdea() {
     $('#ideas-index').delegate("#demote-button", 'click', function() {
@@ -194,7 +194,6 @@ console.log("demoted quality = " + newQuality);
       
     });
   }
-
 
   function truncate(string) {
     if (string.length > 100) {
