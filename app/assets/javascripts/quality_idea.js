@@ -17,18 +17,23 @@ function qualityIdea(status) {
       }
     };
 
-    $.ajax({
-      type: "PUT",
-      url: "/api/v1/ideas/" + $idea.attr('idea-id'),
-      data: ideaParams,
-      success: function() {
-        quality = qualityStatus;
-        $idea.find('p').text("Quality: " + quality());
-      },
-      error: function(xhr) {
-        console.log(xhr.responseText);
-      }
-    });
+    qualityCall($idea, ideaParams, qualityStatus);
+
+  });
+}
+
+function qualityCall(idea, ideaParams, qualityStatus) {
+  $.ajax({
+    type: "PUT",
+    url: "/api/v1/ideas/" + idea.attr('idea-id'),
+    data: ideaParams,
+    success: function() {
+      quality = qualityStatus;
+      idea.find('p').text("Quality: " + quality());
+    },
+    error: function(xhr) {
+      console.log(xhr.responseText);
+    }
   });
 }
 
