@@ -6,20 +6,26 @@ function createIdea() {
         body: $('#idea-body').val()
       }
     };
-
-    $.ajax({
-      type: "POST",
-      url: "/api/v1/ideas",
-      data: ideaParams,
-      success: function(newIdea) {
-        renderIdea(newIdea);
-      },
-      error: function(xhr) {
-        console.log(xhr.responseText);
-      }
-    });
-
-    $("#idea-title").val("");
-    $("#idea-body").val("");
+    createDatabase(ideaParams);
+    clearForm();
   });
+}
+
+function createDatabase(ideaParams) {
+  $.ajax({
+    type: "POST",
+    url: "/api/v1/ideas",
+    data: ideaParams,
+    success: function(newIdea) {
+      renderIdea(newIdea);
+    },
+    error: function(xhr) {
+      console.log(xhr.responseText);
+    }
+  });
+}
+
+function clearForm() {
+  $("#idea-title").val("");
+  $("#idea-body").val("");
 }
