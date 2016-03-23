@@ -11588,38 +11588,47 @@ function createIdea() {
         body: $('#idea-body').val()
       }
     };
-
-    $.ajax({
-      type: "POST",
-      url: "/api/v1/ideas",
-      data: ideaParams,
-      success: function(newIdea) {
-        renderIdea(newIdea);
-      },
-      error: function(xhr) {
-        console.log(xhr.responseText);
-      }
-    });
-
-    $("#idea-title").val("");
-    $("#idea-body").val("");
+    createCall(ideaParams);
+    clearForm();
   });
+}
+
+function createCall(ideaParams) {
+  $.ajax({
+    type: "POST",
+    url: "/api/v1/ideas",
+    data: ideaParams,
+    success: function(newIdea) {
+      renderIdea(newIdea);
+    },
+    error: function(xhr) {
+      console.log(xhr.responseText);
+    }
+  });
+}
+
+function clearForm() {
+  $("#idea-title").val("");
+  $("#idea-body").val("");
 }
 ;
 function deleteIdea() {
   $('#ideas-index').delegate("#delete-button", 'click', function() {
     var $idea = $(this).closest(".idea");
+    deleteCall($idea);
+  });
+}
 
-    $.ajax({
-      type: 'DELETE',
-      url: '/api/v1/ideas/' + $idea.attr('idea-id'),
-      success: function() {
-        $idea.remove();
-      },
-      error: function(xhr) {
-        console.log(xhr.responseText);
-      }
-    });
+function deleteCall(idea) {
+  $.ajax({
+    type: 'DELETE',
+    url: '/api/v1/ideas/' + idea.attr('idea-id'),
+    success: function() {
+      idea.remove();
+    },
+    error: function(xhr) {
+      console.log(xhr.responseText);
+    }
   });
 }
 ;
@@ -11637,21 +11646,24 @@ function editIdea(selector) {
             body: $idea.find('.body').text()
           }
         };
-
-        $.ajax({
-          type: "PUT",
-          url: "/api/v1/ideas/" + $idea.attr('idea-id'),
-          data: ideaParams,
-          success: function() {
-            console.log("updated title to " + $idea.find('.title').text());
-          },
-          error: function(xhr) {
-            console.log(xhr.responseText);
-          }
-        });
+        editCall($idea, ideaParams);
         editableIdea.contentEditable = false;
       }
     });
+  });
+}
+
+function editCall(idea, ideaParams) {
+  $.ajax({
+    type: "PUT",
+    url: "/api/v1/ideas/" + idea.attr('idea-id'),
+    data: ideaParams,
+    success: function() {
+      console.log("updated title to " + idea.find('.title').text());
+    },
+    error: function(xhr) {
+      console.log(xhr.responseText);
+    }
   });
 }
 
@@ -11676,34 +11688,37 @@ function qualityIdea(status) {
   $('#ideas-index').delegate(status, 'click', function() {
     var $idea = $(this).closest('.idea');
     var previousQuality = $idea.find('p').text().split(" ")[1];
-
-    var qualityStatus = function() {
-      if (status == "#demote-button") {
-        return demoteQuality(previousQuality);
-      } else {
-        return promoteQuality(previousQuality);
-      }
-    };
-
+    var newQuality = qualityStatus(status, previousQuality);
     var ideaParams = {
       idea: {
-        quality: qualityStatus
+        quality: newQuality
       }
     };
-
-    $.ajax({
-      type: "PUT",
-      url: "/api/v1/ideas/" + $idea.attr('idea-id'),
-      data: ideaParams,
-      success: function() {
-        quality = qualityStatus;
-        $idea.find('p').text("Quality: " + quality());
-      },
-      error: function(xhr) {
-        console.log(xhr.responseText);
-      }
-    });
+    qualityCall($idea, ideaParams, newQuality);
   });
+}
+
+function qualityCall(idea, ideaParams, newQuality) {
+  $.ajax({
+    type: "PUT",
+    url: "/api/v1/ideas/" + idea.attr('idea-id'),
+    data: ideaParams,
+    success: function() {
+      quality = newQuality;
+      idea.find('p').text("Quality: " + newQuality);
+    },
+    error: function(xhr) {
+      console.log(xhr.responseText);
+    }
+  });
+}
+
+function qualityStatus(status, previousQuality) {
+  if (status == "#demote-button") {
+    return demoteQuality(previousQuality);
+  } else {
+    return promoteQuality(previousQuality);
+  }
 }
 
 function demoteQuality(previousQuality) {
@@ -11726,15 +11741,17 @@ qualityIdea("#demote-button");
 qualityIdea("#promote-button");
 function renderIdea(idea){
   $('#ideas-index').prepend(
-    "<div class='idea' idea-id='" + idea.id + "'>" +
-    
+    "<div class='idea center' idea-id='" + idea.id + "'>" +
       "<h5 class='title'>" + idea.title + "</h5>" +
-      "<h6>Published on: " + date(idea) + "</h6>" + "<br>" +
       "<h6 class='body'>" + truncate(idea.body) + "</h6>" +
-      "<p>Quality: " + idea.quality + "</p>" +
-      "<button id='delete-button' class='btn btn-default btn-xs'><i class='material-icons'>delete</i></button>" +
+      "<div class='center'>" +
+      "<p class='chip'>Quality: " + idea.quality + "</p>" + " " +
+      "<span class='chip'>" + date(idea) + "</span>" + "<br>" +
       "<button id='promote-button' class='btn btn-default btn-xs'><i class='material-icons'>thumb_up</i></button>" +
       "<button id='demote-button' class='btn btn-default btn-xs'><i class='material-icons'>thumb_down</i></button>" +
+      "<button id='delete-button' class='btn btn-default btn-xs'><i class='material-icons'>delete</i></button>" +
+      "</div>" + 
+      "<hr>" +
     "</div>"
   );
 }
