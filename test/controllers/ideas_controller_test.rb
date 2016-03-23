@@ -28,7 +28,7 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
       params = {"title"=>"new title", 
                 "body"=>"new body"}
       
-      post :create, format: :json, idea: params
+      post :create, idea: params, format: :json
 
       idea = JSON.parse(response.body)
       assert_response :success
@@ -45,7 +45,7 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
     params = {"title" => 'updated title',
               "body"  => 'updated body'}
 
-    put :update, format: :json, id: idea.id, idea: params
+    put :update, id: idea.id, idea: params, format: :json
     
     assert_response :success
     assert_response 204, response.status
@@ -60,7 +60,7 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
     idea = create(:idea)
     params = {"quality" => 'plausible'}
 
-    put :update, format: :json, id: idea.id, idea: params
+    put :update, id: idea.id, idea: params, format: :json
     
     assert_response :success
     assert_response 204, response.status
@@ -76,7 +76,7 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
     idea.quality = "plausible"
     params = {"quality" => 'genius'}
 
-    put :update, format: :json, id: idea.id, idea: params
+    put :update, id: idea.id, idea: params, format: :json
     
     assert_response :success
     assert_response 204, response.status
@@ -92,7 +92,7 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
     idea.quality = "genius"
     params = {"quality" => 'plausible'}
 
-    put :update, format: :json, id: idea.id, idea: params
+    put :update, id: idea.id, idea: params, format: :json
     
     assert_response :success
     assert_response 204, response.status
@@ -108,7 +108,7 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
     idea.quality = "plausible"
     params = {"quality" => 'swill'}
 
-    put :update, format: :json, id: idea.id, idea: params
+    put :update, id: idea.id, idea: params, format: :json
     
     assert_response :success
     assert_response 204, response.status
@@ -119,6 +119,15 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
     assert_equal 0, updated_idea["quality"]
   end 
 
+  test '#destroy' do
+    idea = create(:idea)
+    
+    assert_difference 'Idea.count', -1 do 
+      delete :destroy, id: idea.id, format: :json
 
+      assert_response :success
+      assert_response 204, response.status
+    end
+  end
 
 end
