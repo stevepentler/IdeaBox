@@ -1,11 +1,14 @@
-<h3>Latest Ideas</h3>
-<span>Search</span>
-<input type='text' id='search'>
-<div id='ideas-index'>
+<h3>Welcome to Idea Box</h3>
+<div class="row">
+  <div class="col s5">
+    <span>Search Existing Ideas</span>
+    <input type='text' id='search'>
+    <p>Add an Idea</p>
+    <input type="text" id="idea-title" placeholder="title">
+    <input type="text" id="idea-body" placeholder = "text" class="materialize-textarea" length="140">
+      <input class="waves-effect waves-light btn" type="button" id="submit-button" value="Save">
+  </div>
+  <div class="col s6 offset-s1">
+    <div id='ideas-index'></div>
+  </div>
 </div>
-
-<span>Title</span>
-<input type="text" id="idea-title">
-<span>Body</span>
-<input type="text" id="idea-body">
-<input class="waves-effect waves-light btn" type="button" id="submit-button" value="Save">
