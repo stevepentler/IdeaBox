@@ -6,10 +6,9 @@ function renderIdea(idea){
       "<h6>Published on: " + date(idea) + "</h6>" + "<br>" +
       truncate(idea.body) +
       "</h6><p>Quality: " + idea.quality +
-      "</p><button id='delete-button' class='btn btn-default btn-xs'>Delete</button>" +
-      "<button id='promote-button' class='btn btn-default btn-xs'>Promote</button>" +
-      "<button id='demote-button' class='btn btn-default btn-xs'>Demote</button>" +
-      "<button id='edit-button' class='btn btn-default btn-xs'>Edit</button>" +
+      "</p><button id='delete-button' class='btn btn-default btn-xs'><i class='material-icons'>delete</i></button>" +
+      "<button id='promote-button' class='btn btn-default btn-xs'><i class='material-icons'>thumb_up</i></button>" +
+      "<button id='demote-button' class='btn btn-default btn-xs'><i class='material-icons'>thumb_down</i></button>" +
     "</div>"
   );
 }
