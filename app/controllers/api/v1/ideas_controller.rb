@@ -5,10 +5,6 @@ class Api::V1::IdeasController < ApplicationController
     respond_with Idea.all
   end
 
-  def show
-    respond_with Idea.find_by(id: params[:id])
-  end
-
   def create
     @idea = Idea.create(idea_params)
     respond_with :api, :v1, @idea
