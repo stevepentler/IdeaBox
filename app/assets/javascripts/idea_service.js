@@ -12,12 +12,13 @@ $(document).ready(function(){
       "<div class='idea' idea-id='" +
       idea.id + "'><h6>Published on: " +
       idea.created_at +
-      "</h6><h6> Title: " + idea.title + "</h6>" +
+      "</h6><span> Title: " + "</span><h6 class='title'>" + idea.title + "</h6><h6 class='body'>" +
       truncate(idea.body) +
-      "<p>Quality: " + idea.quality +
+      "</h6><p>Quality: " + idea.quality +
       "</p><button id='delete-button' class='btn btn-default btn-xs'>Delete</button>" +
       "<button id='promote-button' class='btn btn-default btn-xs'>Promote</button>" +
       "<button id='demote-button' class='btn btn-default btn-xs'>Demote</button>" +
+      "<button id='edit-button' class='btn btn-default btn-xs'>Edit</button>" +
       "</div>"
     );
   }
@@ -115,6 +116,44 @@ console.log("new quality = " + newQuality);
     });
   }
 
+  function editIdea(selector) {
+    $('#ideas-index').delegate(selector, 'click', function() {
+      var $idea = $(this).closest('.idea');
+      var editableIdea = this;
+      this.contentEditable = true;
+      editedTitle = this;
+      console.log(editedTitle);
+
+      $(document).keypress(function(event){
+        if(event.which == 13) {
+          var ideaParams = {
+            idea: {
+              title: $idea.find('.title').text(),
+              body: $idea.find('.body').text()
+            }
+          };
+
+          $.ajax({
+            type: "PUT",
+            url: "/api/v1/ideas/" + $idea.attr('idea-id'),
+            data: ideaParams,
+            success: function() {
+              console.log("updated title to " + $idea.find('.title').text());
+            },
+            error: function(xhr) {
+              console.log(xhr.responseText);
+            }
+          });
+          editableIdea.contentEditable = false;
+        }
+      });
+    });
+  }
+
+  editIdea('.title');
+  editIdea('.body');
+
+
   function demoteIdea() {
     $('#ideas-index').delegate("#demote-button", 'click', function() {
       var $idea = $(this).closest('.idea');
@@ -156,7 +195,6 @@ console.log("demoted quality = " + newQuality);
       
     });
   }
-
 
   function truncate(string) {
     if (string.length > 100) {
