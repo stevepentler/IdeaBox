@@ -21,3 +21,12 @@ class ActionDispatch::IntegrationTest
   end
 
 end
+
+class ActionController::TestCase
+  include Capybara::DSL
+
+  def teardown 
+    DatabaseCleaner.clean
+  end
+
+end
