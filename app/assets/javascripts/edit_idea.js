@@ -4,18 +4,22 @@ function editIdea(selector) {
     var editableIdea = this;
     this.contentEditable = true;
 
-    $(document).keypress(function(event){
-      if(event.which == 13) {
-        var ideaParams = {
-          idea: {
-            title: $idea.find('.title').text(),
-            body: $idea.find('.body').text()
-          }
-        };
-        editCall($idea, ideaParams);
-        editableIdea.contentEditable = false;
-      }
-    });
+    captureEdit($idea, editableIdea);
+  });
+}
+
+function captureEdit(idea, editableIdea) {
+  $(document).keypress(function(event){
+    if(event.which == 13) {
+      var ideaParams = {
+        idea: {
+          title: idea.find('.title').text(),
+          body: idea.find('.body').text()
+        }
+      };
+      editCall(idea, ideaParams);
+      editableIdea.contentEditable = false;
+    }
   });
 }
 
@@ -32,6 +36,3 @@ function editCall(idea, ideaParams) {
     }
   });
 }
-
-editIdea('.title');
-editIdea('.body');

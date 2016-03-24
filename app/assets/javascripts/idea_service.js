@@ -4,4 +4,6 @@ $(document).ready(function(){
   deleteIdea();
   qualityIdea();
   searchIdeas();
+  editIdea('.title');
+  editIdea('.body');
 });
