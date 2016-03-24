@@ -22,7 +22,7 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
     assert_equal idea3.quality, idea_index.last["quality"]
   end
 
-  test '#create' do 
+  test '#create and clear text areas' do 
     assert_difference 'Idea.count', 1 do 
       
       params = {"title"=>"new title", 
@@ -37,6 +37,42 @@ class Api::V1::IdeasControllerTest < ActionController::TestCase
       assert_equal params["title"], idea["title"]
       assert_equal params["body"], idea["body"]
       assert_equal "swill", idea["quality"]
+
+      visit root_path
+
+      within("#idea-title") do 
+        assert page.has_content?("")
+      end
+
+      within("#idea-body") do 
+        assert page.has_content?("")
+      end
+    end
+  end
+
+  test '#create unsuccesfully without title' do 
+    assert_difference 'Idea.count', 0 do 
+      
+      params = {"body"=>"new body"}
+      
+      post :create, idea: params, format: :json
+
+      idea = JSON.parse(response.body)
+
+      assert_response 422, response.status
+    end
+  end
+
+  test '#create unsuccesfully without body' do 
+    assert_difference 'Idea.count', 0 do 
+      
+      params = {"title"=>"new title"}
+      
+      post :create, idea: params, format: :json
+
+      idea = JSON.parse(response.body)
+
+      assert_response 422, response.status
     end
   end
 
