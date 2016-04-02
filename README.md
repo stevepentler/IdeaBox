@@ -17,7 +17,9 @@ Enter any portion of a title or description to see all ideas that meet that crit
 #### Add an idea
 
 Enter an idea title & description
+
 Click on the save button
+
 New ideas have a default level of 'swill' but can be changed to 'plausible' or 'genius' by hitting the thumbs up and thumbs down icons next to the idea.
 
 Additionally, if an idea's body has more than 100 characters, the body will be truncated to the closest word that is less than the 100 character limit and an ellipses will be added to the end.
@@ -29,7 +31,9 @@ Click on the delete button next to the idea
 #### Edit an idea
 
 Double click on the title or body
+
 Edit the title and/or body
+
 Press enter
 
 ![](http://g.recordit.co/Ov33UONm3n.gif)
