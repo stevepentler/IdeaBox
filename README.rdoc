@@ -1,28 +1,55 @@
-== README
+# Idea Box
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rails single-page application that uses JavaScript and jQuery to set up CRUD functionality for creating and storing ideas. It relies heavily on jQuery's AJAX method to make calls internal API endpoints to get, store, update, and delete data.
 
-Things you may want to cover:
+[GitHub Repo](https://github.com/stevepentler/IdeaBox) || [Live Link](https://pentler-ideas.herokuapp.com/)
 
-* Ruby version
+![](http://g.recordit.co/jflg8dNj6L.gif)
 
-* System dependencies
+### Inline Editing
+![](http://g.recordit.co/Ov33UONm3n.gif)
 
-* Configuration
+### Skills Utilized:
+AJAX, JavaScript, jQuery, Selenium
+___
+## Using the App
 
-* Database creation
+#### Search Existing Ideas
+Enter any portion of a title or description to see all ideas that meet that criteria.
 
-* Database initialization
+#### Add an idea
 
-* How to run the test suite
+Enter an idea title & description
+Click on the save button
+New ideas have a default level of 'swill' but can be changed to 'plausible' or 'genius' by hitting the thumbs up and thumbs down icons next to the idea.
 
-* Services (job queues, cache servers, search engines, etc.)
+Additionally, if an idea's body has more than 100 characters, the body will be truncated to the closest word that is less than the 100 character limit and an ellipses will be added to the end.
 
-* Deployment instructions
+#### Edit an idea
 
-* ...
+Double click on the title or body
+Edit the title and/or body
+Press enter
 
+#### Delete an idea
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Click on the delete button next to the idea
+___
+## Code Quality
+
+- [qualityIdea](https://github.com/stevepentler/IdeaBox/blob/master/app/assets/javascripts/quality_idea.js#L30) :
+The promote and demote methods were slightly different, but I practiced DRY principles and made the method dynamic.
+
+- [searchIdea](https://github.com/stevepentler/IdeaBox/blob/master/app/assets/javascripts/search_idea.js#L1) : Well named, human-readable, abstracted code.
+- [Controller Testing](https://github.com/stevepentler/IdeaBox/blob/master/test/controllers/ideas_controller_test.rb#L25) : 
+Specific, realiable controller testing for create, update, and delete.
+___
+## Setup 
+
+If you wish to download the project and set it up locally, run the following commands:
+
+- git clone https://github.com/stevepentler/IdeaBox.git
+- bundle
+- Run rails s in another terminal pane to start the actual Rails server
+- visit your localhost
+___
