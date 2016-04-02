@@ -6,7 +6,6 @@ Rails single-page application that uses JavaScript and jQuery to set up CRUD fun
 
 ![](http://g.recordit.co/jflg8dNj6L.gif)
 
-### Inline Editing
 ![](http://g.recordit.co/Ov33UONm3n.gif)
 
 ### Skills Utilized:
@@ -52,4 +51,5 @@ If you wish to download the project and set it up locally, run the following com
 - bundle
 - Run rails s in another terminal pane to start the actual Rails server
 - visit your localhost
-___
+
+____
