@@ -3,7 +3,7 @@
 [GitHub Repo](https://github.com/stevepentler/IdeaBox) || [Live Link](https://pentler-ideas.herokuapp.com/)
 
 Rails single-page application that uses JavaScript and jQuery to set up CRUD functionality for creating and storing ideas. It relies heavily on jQuery's AJAX method to make calls internal API endpoints to get, store, update, and delete data.
-
+## Preview
 ![](http://g.recordit.co/jflg8dNj6L.gif)
 
 ## Skills Utilized:
@@ -11,30 +11,22 @@ AJAX, JavaScript, jQuery, Selenium
 ___
 ## Using the App
 
-#### Search Existing Ideas
-Enter any portion of a title or description to see all ideas that meet that criteria.
+##### Search Existing Ideas
+- Enter any portion of a title or description to see all ideas that meet that criteria.
 
-#### Add an idea
+##### Add an idea
+- Enter an idea title & description
+- Click on the save button
+- New ideas have a default level of 'swill' but can be changed to 'plausible' or 'genius' by hitting the thumbs up and thumbs down icons next to the idea.
+- Additionally, if an idea's body has more than 100 characters, the body will be truncated to the closest word that is less than the 100 character limit and an ellipses will be added to the end.
 
-Enter an idea title & description
+##### Delete an idea
+- Click on the delete button next to the idea
 
-Click on the save button
-
-New ideas have a default level of 'swill' but can be changed to 'plausible' or 'genius' by hitting the thumbs up and thumbs down icons next to the idea.
-
-Additionally, if an idea's body has more than 100 characters, the body will be truncated to the closest word that is less than the 100 character limit and an ellipses will be added to the end.
-
-#### Delete an idea
-
-Click on the delete button next to the idea
-
-#### Edit an idea
-
-Double click on the title or body
-
-Edit the title and/or body
-
-Press enter
+##### Edit an idea
+- Double click on the title or body
+- Edit the title and/or body
+- Press enter
 
 ![](http://g.recordit.co/Ov33UONm3n.gif)
 
