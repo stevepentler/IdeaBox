@@ -11638,18 +11638,22 @@ function editIdea(selector) {
     var editableIdea = this;
     this.contentEditable = true;
 
-    $(document).keypress(function(event){
-      if(event.which == 13) {
-        var ideaParams = {
-          idea: {
-            title: $idea.find('.title').text(),
-            body: $idea.find('.body').text()
-          }
-        };
-        editCall($idea, ideaParams);
-        editableIdea.contentEditable = false;
-      }
-    });
+    captureEdit($idea, editableIdea);
+  });
+}
+
+function captureEdit(idea, editableIdea) {
+  $(document).on('keypress focusout', function(event){
+    if(event.type === 'keypress' && event.which === 13 || event.type === 'focusout') {
+      var ideaParams = {
+        idea: {
+          title: idea.find('.title').text(),
+          body: idea.find('.body').text()
+        }
+      };
+      editCall(idea, ideaParams);
+      editableIdea.contentEditable = false;
+    }
   });
 }
 
@@ -11666,9 +11670,7 @@ function editCall(idea, ideaParams) {
     }
   });
 }
-
-editIdea('.title');
-editIdea('.body');
+;
 function getIdeas(){
   $.getJSON('/api/v1/ideas', function(ideas){
     $.each(ideas, function(index, idea){
@@ -11683,6 +11685,8 @@ $(document).ready(function(){
   deleteIdea();
   qualityIdea();
   searchIdeas();
+  editIdea('.title');
+  editIdea('.body');
 });
 function qualityIdea(status) {
   $('#ideas-index').delegate(status, 'click', function() {
@@ -11750,7 +11754,7 @@ function renderIdea(idea){
       "<button id='promote-button' class='btn btn-default btn-xs'><i class='material-icons'>thumb_up</i></button>" +
       "<button id='demote-button' class='btn btn-default btn-xs'><i class='material-icons'>thumb_down</i></button>" +
       "<button id='delete-button' class='btn btn-default btn-xs'><i class='material-icons'>delete</i></button>" +
-      "</div>" + 
+      "</div>" +
       "<hr>" +
     "</div>"
   );
