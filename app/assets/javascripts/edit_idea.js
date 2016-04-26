@@ -9,8 +9,8 @@ function editIdea(selector) {
 }
 
 function captureEdit(idea, editableIdea) {
-  $(document).keypress(function(event){
-    if(event.which == 13) {
+  $(document).on('keypress focusout', function(event){
+    if(event.type === 'keypress' && event.which === 13 || event.type === 'focusout') {
       var ideaParams = {
         idea: {
           title: idea.find('.title').text(),
