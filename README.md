@@ -2,7 +2,8 @@
 
 [GitHub Repo](https://github.com/stevepentler/IdeaBox) || [Live Link](https://pentler-ideas.herokuapp.com/)
 
-Rails single-page application that uses JavaScript and jQuery to set up CRUD functionality for creating and storing ideas. It relies heavily on jQuery's AJAX method to make calls internal API endpoints to get, store, update, and delete data.
+Rails single-page application that uses JavaScript and jQuery to set up CRUD functionality for creating and storing ideas. AJAX calls hit internal API endpoints to get, store, update, and delete data.
+
 ## Preview
 ![](http://g.recordit.co/jflg8dNj6L.gif)
 
